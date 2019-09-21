@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+  - "12"
+services:
+  - docker
+
+branches:
+  only:
+    - master
+
+before_install:
+  - yarn install
+
+script:
+  - yarn run build
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t yangjay/vue-realworld:latest
+  - docker push yangjay/vue-realworld:latest
+
